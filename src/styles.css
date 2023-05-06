@@ -43,7 +43,8 @@ h1 {
   font-weight: 600;
   text-transform: uppercase;
   background-color: transparent;
-  border: 1px solid yellow;
+  border: 2px solid yellow;
+  border-radius: 50%;
   cursor: pointer;
 }
 
@@ -67,7 +68,7 @@ h1 {
 }
 
 .pad-red {
-  border-top-left-radius: 200px;
+  border-top-left-radius: 100px;
   background-color: red;
 }
 
@@ -84,7 +85,7 @@ h1 {
 }
 
 .pad-green {
-  border-top-right-radius: 200px;
+  border-bottom-left-radius: 100px;
   background-color: green;
 }
 
@@ -100,25 +101,25 @@ h1 {
   transform: translateY(10px);
 }
 
-.pad-yellow {
-  border-bottom-right-radius: 200px;
-  background-color: yellow;
+.pad-purple {
+  border-bottom-right-radius: 100px;
+  background-color: #ab2bc5;
 }
 
-.pad-yellow:hover,
-.pad-yellow:focus {
-  background-color: #ffb900;
+.pad-purple:hover,
+.pad-purple:focus {
+  background-color: #ab2bc5;
   transform: rotate(5deg);
 }
 
-.pad-yellow:active,
-.pad-yellow.activated {
-  background-color: #ffca3d;
+.pad-purple:active,
+.pad-purple.activated {
+  background-color: #ab2bc5;
   transform: translateY(10px);
 }
 
 .pad-blue {
-  border-bottom-left-radius: 200px;
+  border-top-right-radius: 100px;
   background-color: blue;
 }
 

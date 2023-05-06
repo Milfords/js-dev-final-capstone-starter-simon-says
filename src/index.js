@@ -4,9 +4,9 @@
 
  const startButton = document.querySelector(".js-start-button");
  // TODO: Add the missing query selectors:
- const statusSpan; // Use querySelector() to get the status element
- const heading; // Use querySelector() to get the heading element
- const padContainer; // Use querySelector() to get the heading element
+ const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
+ const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
+ const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
 
 /**
  * VARIABLES
@@ -27,7 +27,7 @@ let roundCount = 0; // track the number of rounds that have been played so far
  *
  * Audio file for the green pad: "../assets/simon-says-sound-2.mp3"
  * Audio file for the blue pad: "../assets/simon-says-sound-3.mp3"
- * Audio file for the yellow pad: "../assets/simon-says-sound-4.mp3"
+ * Audio file for the purple pad: "../assets/simon-says-sound-4.mp3"
  *
  */
 
@@ -37,7 +37,22 @@ let roundCount = 0; // track the number of rounds that have been played so far
     selector: document.querySelector(".js-pad-red"),
     sound: new Audio("../assets/simon-says-sound-1.mp3"),
   },
-  // TODO: Add the objects for the green, blue, and yellow pads. Use object for the red pad above as an example.
+  // TODO: Add the objects for the green, blue, and purple pads. Use object for the red pad above as an example.
+  {
+    color: "blue",
+    selector: document.querySelector(".js-pad-blue"),
+    sound: new Audio("../assets/simon-says-sound-2.mp3"),
+  },
+  {
+    color: "green",
+    selector: document.querySelector(".js-pad-green"),
+    sound: new Audio("../assets/simon-says-sound-3.mp3"),
+  },
+  {
+    color: "purple",
+    selector: document.querySelector(".js-pad-purple"),
+    sound: new Audio("../assets/simon-says-sound-4.mp3"),
+  },
 ];
 
 /**
@@ -123,6 +138,13 @@ function padHandler(event) {
  */
 function setLevel(level = 1) {
   // TODO: Write your code here.
+  if (level <= 0 || level > 4) throw new Error("Please enter level 1, 2, 3, or 4");
+  switch (level) {
+    case 1: return 8;
+    case 2: return 14;
+    case 3: return 20;
+    case 4: return 31;
+  }
 }
 
 /**
