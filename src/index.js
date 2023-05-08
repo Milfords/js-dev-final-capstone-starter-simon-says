@@ -15,6 +15,8 @@ let computerSequence = []; // track the computer-generated sequence of pad press
 let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
+let level = 1;
+ //the level of the game, default is 1
 
 /**
  *
@@ -59,7 +61,7 @@ let roundCount = 0; // track the number of rounds that have been played so far
  * EVENT LISTENERS
  */
 
-padContainer.addEventListener("click", padHandler);
+
 // TODO: Add an event listener `startButtonHandler()` to startButton.
 
 /**
@@ -82,9 +84,19 @@ padContainer.addEventListener("click", padHandler);
  */
 function startButtonHandler() {
   // TODO: Write your code here.
-
+  roundCount = 1;
+  startButton.classList.add("hidden");
+  addLevelPrompt();
+  statusSpan.innerHTML = "";
+  statusSpan.classList.remove("hidden");
+  setTimeout(() => playComputerTurn(), 3000);
   return { startButton, statusSpan };
 }
+
+
+startButton.addEventListener("click", startButtonHandler);
+
+
 
 /**
  * Called when one of the pads is clicked.
@@ -106,14 +118,14 @@ function startButtonHandler() {
 function padHandler(event) {
   const { color } = event.target.dataset;
   if (!color) return;
-
   // TODO: Write your code here.
+  const pad = pads.find((item) => item.color === color);
+  pad.sound.play();
+  checkPress(pad.color);
   return color;
 }
 
-/**
- * HELPER FUNCTIONS
- */
+
 
 /**
  * Sets the level of the game given a `level` parameter.
@@ -136,14 +148,80 @@ function padHandler(event) {
  * setLevel(8) //> returns "Please enter level 1, 2, 3, or 4";
  *
  */
-function setLevel(level = 1) {
+function setLevel(level) {
   // TODO: Write your code here.
-  if (level <= 0 || level > 4) throw new Error("Please enter level 1, 2, 3, or 4");
-  switch (level) {
+  const levelInt = parseInt(level);
+  if (levelInt <= 0 || levelInt > 4) throw new Error("Please enter level 1, 2, 3, or 4");
+  switch (levelInt) {
     case 1: return 8;
     case 2: return 14;
     case 3: return 20;
     case 4: return 31;
+  }
+}
+
+/* 
+* HELPER METHOD THAT CREATES A PROMPT WHAT LEVEL THE PLAYER WANTS TO PLAY ON AND SET THE LEVEL
+  NEED TO CREATE 2 DIVS, AND 4 BUTTONS EACH WITH AN EVENT LISTENER ON THEM. WHEN A BUTTON IS 
+  CLICKED, THE METHOD RETURNS THAT NUMBER WHICH WILL BE THE PARAMETER USED IN 'setLevel(level)' 
+  METHOD.
+*/
+function addLevelPrompt() {
+  if (typeof(div) === 'undefined') {
+    const div = document.createElement("div");
+    const levelDiv = document.createElement("div");
+    const levelOne = document.createElement("button");
+    const levelTwo = document.createElement("button");
+    const levelThree = document.createElement("button");
+    const levelFour = document.createElement("button");
+    const levelPrompt = document.createElement("span");
+    div.id = "level";
+    levelDiv.id = "levelDiv";
+    levelPrompt.id = "levelPrompt";
+    levelPrompt.innerHTML = "What level would you like to select?";
+    levelOne.classList.add("level");
+    levelOne.innerHTML = 1;
+    levelTwo.classList.add("level");
+    levelTwo.innerHTML = 2;
+    levelThree.classList.add("level");
+    levelThree.innerHTML = 3;
+    levelFour.classList.add("level");
+    levelFour.innerHTML = 4;
+    const section = document.querySelector(".game-controls");
+    section.appendChild(div);
+    div.appendChild(levelPrompt);
+    div.appendChild(levelDiv);
+    levelDiv.appendChild(levelOne);
+    levelDiv.appendChild(levelTwo);
+    levelDiv.appendChild(levelThree);
+    levelDiv.appendChild(levelFour);
+    const buttons = document.querySelectorAll(".level");
+    let level = null;
+    buttons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        levelPrompt.classList.add("hidden");
+        levelOne.classList.add("hidden");
+        levelTwo.classList.add("hidden");
+        levelThree.classList.add("hidden");
+        levelFour.classList.add("hidden");
+        level = event.target.innerHTML;
+        maxRoundCount = setLevel(level);
+      });
+    });
+  } else {
+    const buttons = document.querySelectorAll(".level");
+    let level = null;
+    buttons.forEach((button) => {
+      button.addEventListener("click", (event) => {
+        levelPrompt.classList.add("hidden");
+        levelOne.classList.add("hidden");
+        levelTwo.classList.add("hidden");
+        levelThree.classList.add("hidden");
+        levelFour.classList.add("hidden");
+        level = event.target.innerHTML;
+        maxRoundCount = setLevel(level);
+      });
+    });
   }
 }
 
@@ -163,9 +241,9 @@ function setLevel(level = 1) {
  * getRandomItem([1, 2, 3, 4]) //> returns 1
  */
 function getRandomItem(collection) {
-  // if (collection.length === 0) return null;
-  // const randomIndex = Math.floor(Math.random() * collection.length);
-  // return collection[randomIndex];
+  if (collection.length === 0) return null;
+  const randomIndex = Math.floor(Math.random() * collection.length);
+  return collection[randomIndex];
 }
 
 /**
@@ -173,6 +251,7 @@ function getRandomItem(collection) {
  */
 function setText(element, text) {
   // TODO: Write your code here.
+  element.textContent = text;
   return element;
 }
 
@@ -191,6 +270,12 @@ function setText(element, text) {
 
 function activatePad(color) {
   // TODO: Write your code here.
+  const pad = pads.find((item) => item.color === color);
+  pad.selector.classList.add("activated");
+  pad.sound.play();
+  setTimeout(() => {
+    pad.selector.classList.remove("activated");
+  }, 500);
 }
 
 /**
@@ -208,7 +293,10 @@ function activatePad(color) {
  */
 
 function activatePads(sequence) {
-  // TODO: Write your code here.
+  let delay = 0;
+  sequence.forEach((color) => {
+    setTimeout(activatePad, delay += 600, color);
+  });
 }
 
 /**
@@ -236,7 +324,11 @@ function activatePads(sequence) {
  */
  function playComputerTurn() {
   // TODO: Write your code here.
-
+  padContainer.classList.add("unclickable");
+  statusSpan.innerHTML = `The computer's turn...`;
+  heading.innerHTML = `Round ${roundCount} of ${maxRoundCount}`;
+  computerSequence.push(getRandomItem(pads).color);
+  activatePads(computerSequence);
   setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 1000); // 5
 }
 
@@ -249,6 +341,9 @@ function activatePads(sequence) {
  */
 function playHumanTurn() {
   // TODO: Write your code here.
+  padContainer.classList.remove("unclickable");
+  statusSpan.innerHTML = `Player's turn: ${computerSequence.length - playerSequence.length} Presses Left`;
+  padContainer.addEventListener("click", padHandler);
 }
 
 /**
@@ -275,6 +370,17 @@ function playHumanTurn() {
  */
 function checkPress(color) {
   // TODO: Write your code here.
+  playerSequence.push(color);
+  let index = playerSequence.length - 1;
+  let remainingPresses = computerSequence.length - playerSequence.length;
+  statusSpan.innerHTML = `Player's turn: ${remainingPresses} Presses Left`;
+  console.log(color);
+  console.log(computerSequence[index]);
+  if (color !== computerSequence[index]) {
+    statusSpan.innerHTML = `Oh no! You picked the wrong color!`;
+    setTimeout(resetGame, 2000);
+  }
+  if (remainingPresses === 0 && color === computerSequence[index]) checkRound();
 }
 
 /**
@@ -294,6 +400,15 @@ function checkPress(color) {
 
 function checkRound() {
   // TODO: Write your code here.
+  if (playerSequence.length === maxRoundCount) {
+    statusSpan.innerHTML = `YAY! You've completed Level ${level} Successfully!`;
+    setTimeout(resetGame, 5000);
+  } else {
+      roundCount += 1;
+      playerSequence = [];
+      statusSpan.innerHTML = `Nice! Keep Going!`;
+      setTimeout(playComputerTurn, 1000);
+  }
 }
 
 /**
@@ -307,13 +422,18 @@ function checkRound() {
  */
 function resetGame(text) {
   // TODO: Write your code here.
+  computerSequence = [];
+  playerSequence = [];
+  roundCount = [];
+  statusSpan.innerHTML = "";
+  level = 1;
 
   // Uncomment the code below:
-  // alert(text);
-  // setText(heading, "Simon Says");
-  // startButton.classList.remove("hidden");
-  // statusSpan.classList.add("hidden");
-  // padContainer.classList.add("unclickable");
+  alert(text);
+  setText(heading, "Simon Says");
+  startButton.classList.remove("hidden");
+  statusSpan.classList.add("hidden");
+  padContainer.classList.add("unclickable");
 }
 
 /**

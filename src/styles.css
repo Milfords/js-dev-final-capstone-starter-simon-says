@@ -33,7 +33,16 @@ h1 {
   text-align: center;
 }
 
-.start-button {
+#level {
+  display: flex;
+  flex-direction: column;
+}
+
+#levelPrompt {
+  margin-bottom: 10px;
+}
+
+.start-button, .level {
   display: inline-block;
   height: 38px;
   padding: 0 30px;
