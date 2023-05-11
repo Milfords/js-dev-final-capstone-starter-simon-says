@@ -7,6 +7,9 @@
  const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
  const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
  const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
+ const levelPrompt = document.querySelector("#levelPrompt"); // Use querySelector() to get the prompt for selecting the level
+  const levelSelectionDiv = document.querySelector("#levelSelection"); // Use querySelector() to get the div for selecting the level
+  const buttons = document.querySelectorAll(".level") // Use querySelector() to get the buttons for each level
 
 /**
  * VARIABLES
@@ -15,8 +18,7 @@ let computerSequence = []; // track the computer-generated sequence of pad press
 let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
-let level = 1;
- //the level of the game, default is 1
+let level = 1; //the level of the game, default is 1
 
 /**
  *
@@ -57,6 +59,9 @@ let level = 1;
   },
 ];
 
+//call addLevelPrompt
+addLevelPrompt();
+
 /**
  * EVENT LISTENERS
  */
@@ -86,10 +91,13 @@ function startButtonHandler() {
   // TODO: Write your code here.
   roundCount = 1;
   startButton.classList.add("hidden");
-  addLevelPrompt();
   statusSpan.innerHTML = "";
   statusSpan.classList.remove("hidden");
-  setTimeout(() => playComputerTurn(), 3000);
+  levelPrompt.classList.remove("hidden");
+  levelSelectionDiv.classList.remove("hidden");
+  // addLevelPrompt();
+  // setTimeout(() => playComputerTurn(), 3000);
+
   return { startButton, statusSpan };
 }
 
@@ -167,63 +175,17 @@ function setLevel(level) {
   METHOD.
 */
 function addLevelPrompt() {
-  if (typeof(div) === 'undefined') {
-    const div = document.createElement("div");
-    const levelDiv = document.createElement("div");
-    const levelOne = document.createElement("button");
-    const levelTwo = document.createElement("button");
-    const levelThree = document.createElement("button");
-    const levelFour = document.createElement("button");
-    const levelPrompt = document.createElement("span");
-    div.id = "level";
-    levelDiv.id = "levelDiv";
-    levelPrompt.id = "levelPrompt";
-    levelPrompt.innerHTML = "What level would you like to select?";
-    levelOne.classList.add("level");
-    levelOne.innerHTML = 1;
-    levelTwo.classList.add("level");
-    levelTwo.innerHTML = 2;
-    levelThree.classList.add("level");
-    levelThree.innerHTML = 3;
-    levelFour.classList.add("level");
-    levelFour.innerHTML = 4;
-    const section = document.querySelector(".game-controls");
-    section.appendChild(div);
-    div.appendChild(levelPrompt);
-    div.appendChild(levelDiv);
-    levelDiv.appendChild(levelOne);
-    levelDiv.appendChild(levelTwo);
-    levelDiv.appendChild(levelThree);
-    levelDiv.appendChild(levelFour);
-    const buttons = document.querySelectorAll(".level");
-    let level = null;
     buttons.forEach((button) => {
       button.addEventListener("click", (event) => {
         levelPrompt.classList.add("hidden");
-        levelOne.classList.add("hidden");
-        levelTwo.classList.add("hidden");
-        levelThree.classList.add("hidden");
-        levelFour.classList.add("hidden");
+        levelSelectionDiv.classList.add("hidden");
         level = event.target.innerHTML;
         maxRoundCount = setLevel(level);
+        playComputerTurn();
       });
     });
-  } else {
-    const buttons = document.querySelectorAll(".level");
-    let level = null;
-    buttons.forEach((button) => {
-      button.addEventListener("click", (event) => {
-        levelPrompt.classList.add("hidden");
-        levelOne.classList.add("hidden");
-        levelTwo.classList.add("hidden");
-        levelThree.classList.add("hidden");
-        levelFour.classList.add("hidden");
-        level = event.target.innerHTML;
-        maxRoundCount = setLevel(level);
-      });
-    });
-  }
 }
+
 
 /**
  * Returns a randomly selected item from a given array.
@@ -329,7 +291,7 @@ function activatePads(sequence) {
   heading.innerHTML = `Round ${roundCount} of ${maxRoundCount}`;
   computerSequence.push(getRandomItem(pads).color);
   activatePads(computerSequence);
-  setTimeout(() => playHumanTurn(roundCount), roundCount * 600 + 1000); // 5
+  setTimeout(() => playHumanTurn(), roundCount * 600 + 1000); // 5
 }
 
 /**
@@ -374,8 +336,6 @@ function checkPress(color) {
   let index = playerSequence.length - 1;
   let remainingPresses = computerSequence.length - playerSequence.length;
   statusSpan.innerHTML = `Player's turn: ${remainingPresses} Presses Left`;
-  console.log(color);
-  console.log(computerSequence[index]);
   if (color !== computerSequence[index]) {
     statusSpan.innerHTML = `Oh no! You picked the wrong color!`;
     setTimeout(resetGame, 2000);
