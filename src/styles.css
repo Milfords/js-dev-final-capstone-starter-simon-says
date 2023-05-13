@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik+Microbe&display=swap');
 
 html {
-  background: url('../assets/background.png') no-repeat center center fixed;
+  background: url('../assets/new-background.jpeg') no-repeat center center fixed;
   box-sizing: border-box;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -20,13 +20,15 @@ body {
 }
 
 main {
-  background-color: #000;
+  background-color: #07070708;
   padding: 40px;
+  margin-bottom: 100px;
 }
 
 h1 {
   text-align: center;
   font-size: 40px;
+  caret-color: transparent;
 }
 
 .game-controls {
@@ -40,6 +42,7 @@ h1 {
 
 #levelPrompt {
   margin-bottom: 10px;
+  caret-color: transparent;
 }
 
 .start-button, .level {
@@ -55,6 +58,7 @@ h1 {
   border: 2px solid yellow;
   border-radius: 50%;
   cursor: pointer;
+  caret-color: transparent;
 }
 
 .start-button:hover {
@@ -78,6 +82,10 @@ h1 {
 
 .pad-red {
   border-top-left-radius: 100px;
+  border-style: solid;
+  border-color: #000;
+  border-width: 4px;
+  caret-color: transparent;
   background-color: red;
 }
 
@@ -95,6 +103,10 @@ h1 {
 
 .pad-green {
   border-bottom-left-radius: 100px;
+  border-style: solid;
+  border-color: #000;
+  border-width: 4px;
+  caret-color: transparent;
   background-color: green;
 }
 
@@ -112,23 +124,31 @@ h1 {
 
 .pad-purple {
   border-bottom-right-radius: 100px;
+  border-style: solid;
+  border-color: #000;
+  border-width: 4px;
+  caret-color: transparent;
   background-color: #ab2bc5;
 }
 
 .pad-purple:hover,
 .pad-purple:focus {
-  background-color: #ab2bc5;
+  background-color: #cc07e2;
   transform: rotate(5deg);
 }
 
 .pad-purple:active,
 .pad-purple.activated {
-  background-color: #ab2bc5;
+  background-color: #cd7ad8;
   transform: translateY(10px);
 }
 
 .pad-blue {
   border-top-right-radius: 100px;
+  border-style: solid;
+  border-color: #000;
+  border-width: 4px;
+  caret-color: transparent;
   background-color: blue;
 }
 

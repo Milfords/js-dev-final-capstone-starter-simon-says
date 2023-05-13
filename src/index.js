@@ -7,9 +7,11 @@
  const statusSpan = document.querySelector(".js-status"); // Use querySelector() to get the status element
  const heading = document.querySelector(".js-heading"); // Use querySelector() to get the heading element
  const padContainer = document.querySelector(".js-pad-container"); // Use querySelector() to get the heading element
+ const section = document.querySelector(".game-controls"); // Use querySelector() to get the section element
  const levelPrompt = document.querySelector("#levelPrompt"); // Use querySelector() to get the prompt for selecting the level
-  const levelSelectionDiv = document.querySelector("#levelSelection"); // Use querySelector() to get the div for selecting the level
-  const buttons = document.querySelectorAll(".level") // Use querySelector() to get the buttons for each level
+ const levelSelectionDiv = document.querySelector("#levelSelection"); // Use querySelector() to get the div for selecting the level
+ const buttons = document.querySelectorAll(".level") // Use querySelector() to get the buttons for each level
+ const prize = document.querySelector("img"); //img that comes up when losing
 
 /**
  * VARIABLES
@@ -19,6 +21,8 @@ let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
 let level = 1; //the level of the game, default is 1
+const winner = new Audio("../assets/winner-winner-sound.mp3");
+const loser = new Audio("../assets/loser-sound.mp3");
 
 /**
  *
@@ -59,7 +63,7 @@ let level = 1; //the level of the game, default is 1
   },
 ];
 
-//call addLevelPrompt
+//call addLevelPrompt to create the level selection prompt and will continue the game whenever one of the levels is clicked
 addLevelPrompt();
 
 /**
@@ -334,10 +338,20 @@ function checkPress(color) {
   let remainingPresses = computerSequence.length - playerSequence.length;
   statusSpan.innerHTML = `Player's turn: ${remainingPresses} Presses Left`;
   if (color !== computerSequence[index]) {
-    statusSpan.innerHTML = `Oh no! You picked the wrong color!`;
-    setTimeout(resetGame, 2000);
+    statusSpan.innerText = `Oh no! You picked the wrong color! \nScan the QR code for a prize:`;
+    losingImg();
+    setTimeout(() => { loser.play() }, 700)
+    setTimeout(resetGame, 5700);
   }
   if (remainingPresses === 0 && color === computerSequence[index]) checkRound();
+}
+
+/**
+ * HELPER METHOD TO CREATE QR CODE FOR LOSING
+ */
+function losingImg() {
+  prize.style.marginTop = "10px";
+  prize.classList.remove("hidden");
 }
 
 /**
@@ -358,7 +372,8 @@ function checkPress(color) {
 function checkRound() {
   // TODO: Write your code here.
   if (playerSequence.length === maxRoundCount) {
-    statusSpan.innerHTML = `YAY! You've completed Level ${level} Successfully!`;
+    statusSpan.innerHTML = `YAY! You've completed Level ${level}`;
+    setTimeout(() => { winner.play() }, 500);
     setTimeout(resetGame, 5000);
   } else {
       roundCount += 1;
@@ -384,6 +399,7 @@ function resetGame(text) {
   roundCount = [];
   statusSpan.innerHTML = "";
   level = 1;
+  
 
   // Uncomment the code below:
   alert(text);
@@ -391,6 +407,7 @@ function resetGame(text) {
   startButton.classList.remove("hidden");
   statusSpan.classList.add("hidden");
   padContainer.classList.add("unclickable");
+  prize.classList.add("hidden");
 }
 
 /**
