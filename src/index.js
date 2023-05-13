@@ -99,6 +99,7 @@ function startButtonHandler() {
   statusSpan.classList.remove("hidden");
   levelPrompt.classList.remove("hidden");
   levelSelectionDiv.classList.remove("hidden");
+
   return { startButton, statusSpan };
 }
 
