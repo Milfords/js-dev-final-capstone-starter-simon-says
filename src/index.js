@@ -20,9 +20,9 @@ let computerSequence = []; // track the computer-generated sequence of pad press
 let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
-let level = 1; //the level of the game, default is 1
-const winner = new Audio("../assets/winner-winner-sound.mp3");
-const loser = new Audio("../assets/loser-sound.mp3");
+let level = 1; // the level of the game, default is 1
+const winner = new Audio("../assets/winner-winner-sound.mp3"); // audio file that will play when the user wins
+const loser = new Audio("../assets/loser-sound.mp3"); // audio file that will play when the user loses
 
 /**
  *
@@ -99,7 +99,6 @@ function startButtonHandler() {
   statusSpan.classList.remove("hidden");
   levelPrompt.classList.remove("hidden");
   levelSelectionDiv.classList.remove("hidden");
-
   return { startButton, statusSpan };
 }
 
