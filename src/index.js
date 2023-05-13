@@ -95,9 +95,6 @@ function startButtonHandler() {
   statusSpan.classList.remove("hidden");
   levelPrompt.classList.remove("hidden");
   levelSelectionDiv.classList.remove("hidden");
-  // addLevelPrompt();
-  // setTimeout(() => playComputerTurn(), 3000);
-
   return { startButton, statusSpan };
 }
 
