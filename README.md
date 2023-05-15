@@ -431,3 +431,17 @@ General Code Organization:
 - Start by completing the required HTML elements and then proceed to work on the javascript functions. CSS changes can be made last. Follow the order of the user stories.
 - If you get stuck, take a careful look at the resources that we provide. If you are still stuck, ask a friend or a mentor for help.
 - Read the user stories and tests carefully.
+
+# Dual Player Mode
+
+- First create message prompt to ask what mode you'd like to play. 
+- Single mode will have levels with a different number of rounds to win. 
+- Dual Mode will create a sequence and the other player will add to the sequence until someone loses (infinite possible number of rounds).
+
+# Steps to Create for Dual Player Mode
+
+  1. On start button click, have the player selection for single or two player mode
+  2. Add event listeners to both modes
+  3. If single mode, remove the hidden class from the level prompts and ask what level the user would like to play
+  4. If dual mode, you'll need to prompt the players to enter their names and save that info into an array of players
+  5. Player one will start the sequence. Make the buttons clickable and the player will select a color. Event listeners are already made for the colors.

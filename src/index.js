@@ -93,6 +93,7 @@ addLevelPrompt();
  */
 function startButtonHandler() {
   // TODO: Write your code here.
+  // Whenever the start button is called, you need to define the round count and show the level selection prompt and numbers, hide the start button.
   roundCount = 1;
   startButton.classList.add("hidden");
   statusSpan.innerHTML = "";
@@ -102,7 +103,7 @@ function startButtonHandler() {
   return { startButton, statusSpan };
 }
 
-
+// Adding the event listener to the startButtonHandler callback function
 startButton.addEventListener("click", startButtonHandler);
 
 
@@ -125,9 +126,11 @@ startButton.addEventListener("click", startButtonHandler);
  * 6. Return the `color` variable as the output
  */
 function padHandler(event) {
+  // Pulling the color variable out of which pad was clicked
   const { color } = event.target.dataset;
   if (!color) return;
   // TODO: Write your code here.
+  // Taking the pad and playing the sound of that color pad
   const pad = pads.find((item) => item.color === color);
   pad.sound.play();
   checkPress(pad.color);
@@ -159,8 +162,11 @@ function padHandler(event) {
  */
 function setLevel(level) {
   // TODO: Write your code here.
+  // Parse the string that we are taking from the level variable in addLevelPrompt() which is the value of the innerHTML of the clicked button 1,2,3, or 4
   const levelInt = parseInt(level);
+  // Conditional statement to make sure that the level is equal to 1,2,3, or 4
   if (levelInt <= 0 || levelInt > 4) throw new Error("Please enter level 1, 2, 3, or 4");
+  // Switch that sets the maxRoundCount based on which level the user selects
   switch (levelInt) {
     case 1: return 8;
     case 2: return 14;
@@ -176,6 +182,7 @@ function setLevel(level) {
   METHOD.
 */
 function addLevelPrompt() {
+  // Create an event listener for each of the level selection buttons so that when the user selects the level, it will start the game
     buttons.forEach((button) => {
       button.addEventListener("click", (event) => {
         levelPrompt.classList.add("hidden");
@@ -204,6 +211,7 @@ function addLevelPrompt() {
  * getRandomItem([1, 2, 3, 4]) //> returns 1
  */
 function getRandomItem(collection) {
+  // Returns a random selection from the pads collection for the computer sequence
   if (collection.length === 0) return null;
   const randomIndex = Math.floor(Math.random() * collection.length);
   return collection[randomIndex];
@@ -233,6 +241,7 @@ function setText(element, text) {
 
 function activatePad(color) {
   // TODO: Write your code here.
+  // Method activating each individual pad and playing the sound for 500ms and then deactivating it for the next pad in the sequence OR for the end
   const pad = pads.find((item) => item.color === color);
   pad.selector.classList.add("activated");
   pad.sound.play();
@@ -256,7 +265,9 @@ function activatePad(color) {
  */
 
 function activatePads(sequence) {
+  // Create a delay variable so that it will add 600ms for every pad in the sequence
   let delay = 0;
+  // For each color in the sequence, activate the pad with a timeout
   sequence.forEach((color) => {
     setTimeout(activatePad, delay += 600, color);
   });
@@ -287,11 +298,16 @@ function activatePads(sequence) {
  */
  function playComputerTurn() {
   // TODO: Write your code here.
+  // Make the pads unclickable during the computers turn so that the user doesn't mess up the sequence
   padContainer.classList.add("unclickable");
+  // Update the span and how many rounds are left in the game
   statusSpan.innerHTML = `The computer's turn...`;
   heading.innerHTML = `Round ${roundCount} of ${maxRoundCount}`;
+  // Push a new random click to the computers sequence
   computerSequence.push(getRandomItem(pads).color);
+  // Activate the random pad selection
   activatePads(computerSequence);
+  // Play the human turn after the computer turn is completely finished with all the computers sequence is completed
   setTimeout(() => playHumanTurn(), roundCount * 600 + 1000); // 5
 }
 
@@ -304,6 +320,7 @@ function activatePads(sequence) {
  */
 function playHumanTurn() {
   // TODO: Write your code here.
+  // Make the pads clickable for the user, set the span to tell the user how many turns are left and add event listener for the pads using the callback function padHandler
   padContainer.classList.remove("unclickable");
   statusSpan.innerHTML = `Player's turn: ${computerSequence.length - playerSequence.length} Presses Left`;
   padContainer.addEventListener("click", padHandler);
@@ -333,16 +350,21 @@ function playHumanTurn() {
  */
 function checkPress(color) {
   // TODO: Write your code here.
+  // Add the color from the pad that was pressed to the playerSequence array
   playerSequence.push(color);
+  // Setting the index of the press
   let index = playerSequence.length - 1;
+  // How many presses are left in your turn
   let remainingPresses = computerSequence.length - playerSequence.length;
   statusSpan.innerHTML = `Player's turn: ${remainingPresses} Presses Left`;
+  // If the color is not equal to the same index of the computer sequence, then the user picked the wrong color, show losing messages
   if (color !== computerSequence[index]) {
     statusSpan.innerText = `Oh no! You picked the wrong color! \nScan the QR code for a prize:`;
     losingImg();
     setTimeout(() => { loser.play() }, 700)
     setTimeout(resetGame, 5700);
   }
+  // Otherwise, if the round is over, go to the checkRound() method
   if (remainingPresses === 0 && color === computerSequence[index]) checkRound();
 }
 
@@ -350,6 +372,7 @@ function checkPress(color) {
  * HELPER METHOD TO CREATE QR CODE FOR LOSING
  */
 function losingImg() {
+  // Give some margin for the QR Code and hide the hidden class whenever the user loses
   prize.style.marginTop = "10px";
   prize.classList.remove("hidden");
 }
@@ -371,11 +394,13 @@ function losingImg() {
 
 function checkRound() {
   // TODO: Write your code here.
+  // Show the winning message if the users array is equal to the maxRoundCount and play the winning sound, then reset the game
   if (playerSequence.length === maxRoundCount) {
     statusSpan.innerHTML = `YAY! You've completed Level ${level}`;
     setTimeout(() => { winner.play() }, 500);
     setTimeout(resetGame, 5000);
   } else {
+    // If the max rounds are not over, then increment the round count, reset the array and then play the computer turn again for the next round
       roundCount += 1;
       playerSequence = [];
       statusSpan.innerHTML = `Nice! Keep Going!`;
@@ -394,6 +419,7 @@ function checkRound() {
  */
 function resetGame(text) {
   // TODO: Write your code here.
+  // Reset all the variables and arrays to be able to play the game again
   computerSequence = [];
   playerSequence = [];
   roundCount = [];
@@ -402,6 +428,7 @@ function resetGame(text) {
   
 
   // Uncomment the code below:
+  // Send an alert and set the values to the original configuration of the game
   alert(text);
   setText(heading, "Simon Says");
   startButton.classList.remove("hidden");
