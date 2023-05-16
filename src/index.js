@@ -21,8 +21,8 @@ let playerSequence = []; // track the player-generated sequence of pad presses
 let maxRoundCount = 0; // the max number of rounds, varies with the chosen level
 let roundCount = 0; // track the number of rounds that have been played so far
 let level = 1; // the level of the game, default is 1
-const winner = new Audio('../assets/winner-winner-sound.mp3'); // audio file that will play when the user wins
-const loser = new Audio('../assets/loser-sound.mp3'); // audio file that will play when the user loses
+const winner = new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/winner-winner-sound.mp3'); // audio file that will play when the user wins
+const loser = new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/loser-sound.mp3'); // audio file that will play when the user loses
 
 /**
  *
@@ -43,23 +43,23 @@ const loser = new Audio('../assets/loser-sound.mp3'); // audio file that will pl
   {
     color: "red",
     selector: document.querySelector(".js-pad-red"),
-    sound: new Audio('../assets/simon-says-sound-1.mp3'),
+    sound: new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/simon-says-sound-1.mp3'),
   },
   // TODO: Add the objects for the green, blue, and purple pads. Use object for the red pad above as an example.
   {
     color: "blue",
     selector: document.querySelector(".js-pad-blue"),
-    sound: new Audio('../assets/simon-says-sound-2.mp3'),
+    sound: new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/simon-says-sound-2.mp3'),
   },
   {
     color: "green",
     selector: document.querySelector(".js-pad-green"),
-    sound: new Audio('../assets/simon-says-sound-3.mp3'),
+    sound: new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/simon-says-sound-3.mp3'),
   },
   {
     color: "purple",
     selector: document.querySelector(".js-pad-purple"),
-    sound: new Audio('../assets/simon-says-sound-4.mp3'),
+    sound: new Audio('https://github.com/Milfords/js-dev-final-capstone-starter-simon-says/blob/d6e88518200b876d631bed1e76c1430095fb3a43/assets/simon-says-sound-4.mp3'),
   },
 ];
 
