@@ -54,7 +54,7 @@ const loser = new Audio('../assets/loser-sound.mp3'); // audio file that will pl
   {
     color: "green",
     selector: document.querySelector(".js-pad-green"),
-    sound: new Audio('../simon-says-sound-3.mp3'),
+    sound: new Audio('../assets/simon-says-sound-3.mp3'),
   },
   {
     color: "purple",
