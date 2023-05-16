@@ -43,23 +43,23 @@ const loser = new Audio('../assets/loser-sound.mp3'); // audio file that will pl
   {
     color: "red",
     selector: document.querySelector(".js-pad-red"),
-    sound: new Audio('./assets/simon-says-sound-1.mp3'),
+    sound: new Audio('../assets/simon-says-sound-1.mp3'),
   },
   // TODO: Add the objects for the green, blue, and purple pads. Use object for the red pad above as an example.
   {
     color: "blue",
     selector: document.querySelector(".js-pad-blue"),
-    sound: new Audio('./assets/simon-says-sound-2.mp3'),
+    sound: new Audio('../assets/simon-says-sound-2.mp3'),
   },
   {
     color: "green",
     selector: document.querySelector(".js-pad-green"),
-    sound: new Audio('./assets/simon-says-sound-3.mp3'),
+    sound: new Audio('../assets/simon-says-sound-3.mp3'),
   },
   {
     color: "purple",
     selector: document.querySelector(".js-pad-purple"),
-    sound: new Audio('./assets/simon-says-sound-4.mp3'),
+    sound: new Audio('../assets/simon-says-sound-4.mp3'),
   },
 ];
 
